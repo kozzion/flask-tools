@@ -23,11 +23,11 @@ class FlaskContext(object):
             return False, False, responsePayload, 400, startTimestamp
 
         if validateApiKey:
-            if not 'apikey' in jsonObject:
-                responsePayload = {'message':'missing field: apikey'}
+            if not 'api_key' in jsonObject:
+                responsePayload = {'message':'missing field: api_key'}
                 return False, False, responsePayload, 400, startTimestamp
-            if not(self.apiKey == jsonObject['apikey']):
-                responsePayload = {'message':'apikey incorrect'}
+            if not(self.apiKey == jsonObject['api_key']):
+                responsePayload = {'message':'api_key incorrect'}
                 return False, False, responsePayload, 403, startTimestamp
 
         for requiredField in requiredFieldList:
