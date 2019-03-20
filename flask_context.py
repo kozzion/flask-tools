@@ -8,13 +8,13 @@ class FlaskContext(object):
         self.apiKey = apiKey
         self.callCompleteList = []
 
-    def updateCallStatistics(self, routeName, startTimestamp, requestValid, routeSucces):
+    def update_call_statistics(self, routeName, startTimestamp, requestValid, routeSucces):
         endTimeStamp = int(datetime.datetime.now().timestamp())
         duration = endTimeStamp - startTimestamp
         # todo use database or persitancy
         self.callCompleteList.append((routeName, startTimestamp, endTimeStamp, duration, requestValid, routeSucces))
 
-    def prepareCall(self, jsonObject, requiredFieldList, validateApiKey=True):
+    def prepare_call(self, jsonObject, requiredFieldList, validateApiKey=True):
         #Todo use: https://pypi.org/project/jsonschema/
         startTimestamp = int(datetime.datetime.now().timestamp())
 
@@ -38,8 +38,8 @@ class FlaskContext(object):
         return True, False, None, 200, startTimestamp
 
 
-    def completeCall(self, requestValid, routeSucces, routeName, startTimestamp, responsePayload, statusCode):
-        self.updateCallStatistics(routeName, startTimestamp, requestValid, routeSucces)
+    def complete_call(self, requestValid, routeSucces, routeName, startTimestamp, responsePayload, statusCode):
+        self.update_call_statistics(routeName, startTimestamp, requestValid, routeSucces)
         if requestValid:
             if routeSucces:
                 statusCode = 200
@@ -47,7 +47,7 @@ class FlaskContext(object):
                 statusCode = 500 #TODO reserve for exeptuon
         return jsonify(responsePayload), statusCode
 
-    def completeCallStatus(self):
+    def complete_call_status(self):
         responsePayload = {}
         responsePayload['callCount'] = len(self.callCompleteList)
         return jsonify(responsePayload)
